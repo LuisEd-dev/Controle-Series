@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Serie;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,8 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(Request $request){
+    public function store(SeriesFormRequest $request){
+
         Serie::create([ 'nome' => $request->nome ]);
 
         $request->session()->flash('mensagem', "Série {$request->nome} adicionada com sucesso.");
