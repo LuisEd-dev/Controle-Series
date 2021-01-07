@@ -23,7 +23,7 @@ class SeriesController extends Controller
 
         $request->session()->flash('mensagem', "Série {$request->nome} adicionada com sucesso.");
 
-        return redirect('/series');
+        return redirect(route('listar_series'));
 
     }
 
@@ -33,7 +33,7 @@ class SeriesController extends Controller
 
         $request->session()->flash('mensagem', "Série excluida com sucesso.");
 
-        return redirect('/series');
+        return redirect(route('listar_series'));
 
     }
 }
