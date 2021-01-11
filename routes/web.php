@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{SeriesController, TemporadasController, EpisodiosController};
+use App\Http\Controllers\{SeriesController, TemporadasController, EpisodiosController, HomeController};
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +15,7 @@ use App\Http\Controllers\{SeriesController, TemporadasController, EpisodiosContr
 */
 
 Route::get('/', [SeriesController::class, 'index'])->name("listar_series");
-Route::get('/series', [SeriesController::class, 'index'])->name("listar_series");
+//Route::get('/series', [SeriesController::class, 'index'])->name("listar_series")->middleware('auth');
 Route::get('/series/criar', [SeriesController::class, 'create'])->name("form_criar_serie");
 Route::post('/series/criar', [SeriesController::class, 'store']);
 Route::delete('/series/{id}', [SeriesController::class, 'destroy']);
@@ -25,3 +25,8 @@ Route::get('/series/{serieId}/temporadas', [TemporadasController::class, 'index'
 
 Route::get('/temporadas/{temporada}/episodios', [EpisodiosController::class, 'index'])->name("listar_episodios");
 Route::post('/temporadas/{temporada}/episodios/assistir', [EpisodiosController::class, 'assistir'])->name("assistir_episodios");
+
+Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
