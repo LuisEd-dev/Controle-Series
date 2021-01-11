@@ -39,4 +39,12 @@ class SeriesController extends Controller
         return redirect(route('listar_series'));
 
     }
+
+    public function editaNome(Request $request, int $id)
+    {
+        $novoNome = $request->nome;
+        $serie = Serie::find($id);
+        $serie->nome = $novoNome;
+        $serie->save();
+    }
 }

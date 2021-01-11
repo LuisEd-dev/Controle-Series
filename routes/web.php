@@ -22,3 +22,5 @@ Route::post('/series/criar', [SeriesController::class, 'store']);
 Route::delete('/series/{id}', [SeriesController::class, 'destroy']);
 
 Route::get('/series/{serieId}/temporadas', [TemporadasController::class, 'index'])->name("listar_temporadas");
+
+Route::post('/series/{id}/editaNome', [SeriesController::class, 'editaNome'])->name("edita_nome");
