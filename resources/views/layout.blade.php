@@ -14,6 +14,14 @@
             <h1>@yield('cabecalho')</h1>
         </div>
 
+        @if(!empty($mensagem))
+
+        <div class="alert alert-success">
+            {{ $mensagem }}
+        </div>
+
+        @endif
+
         @yield('conteudo')
 
     </div>

@@ -13,4 +13,5 @@ class TemporadasController extends Controller
         return view('temporadas.index', compact('temporadas', 'serie'));
 
     }
+
 }

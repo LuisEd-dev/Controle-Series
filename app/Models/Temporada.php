@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Model, Collection};
 
 class Temporada extends Model
 {
@@ -16,5 +16,12 @@ class Temporada extends Model
 
     public function serie(){
         return $this->belongsTo(Serie::class);
+    }
+
+    public function getEpisodiosAssistidos() : Collection
+    {
+        return $this->episodios->filter(function (Episodio $episodio){
+            return $episodio->assistido;
+        });
     }
 }
