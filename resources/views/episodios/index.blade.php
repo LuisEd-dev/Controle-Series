@@ -17,8 +17,12 @@ Episodios da Temporada {{ $temporada->numero }}
             </li>
         @endforeach
     </ul>
-    <button type="submit" class="btn btn-primary mt-2 mb-2">
-        Salvar
-    </button>
+
+    @auth
+        <button type="submit" class="btn btn-primary mt-2 mb-2">
+            Salvar
+        </button>
+    @endauth
+
 </form>
 @endsection

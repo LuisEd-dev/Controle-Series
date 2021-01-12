@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\{Route, Auth};
-use App\Http\Controllers\{SeriesController, TemporadasController, EpisodiosController, EntrarController};
+use App\Http\Controllers\{SeriesController, TemporadasController, EpisodiosController, EntrarController, RegistroController};
 
 /*
 |--------------------------------------------------------------------------
@@ -14,28 +14,34 @@ use App\Http\Controllers\{SeriesController, TemporadasController, EpisodiosContr
 |
 */
 
-Route::get('/', [SeriesController::class, 'index'])->name("listar_series")
-    ->middleware('auth');
+Route::get('/', [SeriesController::class, 'index'])->name("listar_series");
 //Route::get('/series', [SeriesController::class, 'index'])->name("listar_series")->middleware('auth');
 Route::get('/series/criar', [SeriesController::class, 'create'])->name("form_criar_serie")
-    ->middleware('auth');
+    ->middleware('autenticador');
 Route::post('/series/criar', [SeriesController::class, 'store'])
-    ->middleware('auth');
+    ->middleware('autenticador');
 Route::delete('/series/{id}', [SeriesController::class, 'destroy'])
-    ->middleware('auth');
+    ->middleware('autenticador');
 Route::post('/series/{id}/editaNome', [SeriesController::class, 'editaNome'])->name("edita_nome")
-    ->middleware('auth');
+    ->middleware('autenticador');
 
-Route::get('/series/{serieId}/temporadas', [TemporadasController::class, 'index'])->name("listar_temporadas")
-    ->middleware('auth');
+Route::get('/series/{serieId}/temporadas', [TemporadasController::class, 'index'])->name("listar_temporadas");
 
-Route::get('/temporadas/{temporada}/episodios', [EpisodiosController::class, 'index'])->name("listar_episodios")
-    ->middleware('auth');;
+Route::get('/temporadas/{temporada}/episodios', [EpisodiosController::class, 'index'])->name("listar_episodios");
+
 Route::post('/temporadas/{temporada}/episodios/assistir', [EpisodiosController::class, 'assistir'])->name("assistir_episodios")
-    ->middleware('auth');;
+    ->middleware('autenticador');
 
-Auth::routes();
-
+//Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/entrar', [EntrarController::class, 'index'])->name('entrar');
 Route::post('/entrar', [EntrarController::class, 'entrar'])->name('acao_entrar');
+
+Route::get('/registrar', [RegistroController::class, 'create'])->name('registrar');
+Route::post('/registrar', [RegistroController::class, 'store'])->name('acao_registrar');
+
+Route::get('/sair', function () {
+    Auth::logout();
+    return redirect()->route('entrar');
+});
