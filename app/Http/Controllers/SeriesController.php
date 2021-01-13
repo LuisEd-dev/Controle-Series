@@ -6,6 +6,9 @@ use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use App\Services\{CriadorDeSerie, RemovedorDeSerie};
 use Illuminate\Http\Request;
+use App\Mail\NovaSerie;
+use App\Models\User;
+use Illuminate\Support\Facades\{DB, Mail};
 
 class SeriesController extends Controller
 {
@@ -23,7 +26,22 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request, CriadorDeSerie $criadorDeSerie){
 
+        DB::beginTransaction();
         $serie = $criadorDeSerie->criarSerie($request->nome, $request->qtd_temporadas, $request->ep_temporada);
+
+        $to = [];
+        foreach(User::all() as $user){
+
+            $email = new NovaSerie($request->nome, $request->qtd_temporadas, $request->ep_temporada);
+            $email->subject = $request->user()->name . ' adicionou uma série nova';
+
+            array_push($to, ['email' => $user->email,
+            'name' => $user->nome]);
+        }
+
+        Mail::to($to)->send($email);
+
+        DB::commit();
 
         $request->session()->flash('mensagem', "Série {$serie->nome} com suas temporadas e episodios adicionada com sucesso.");
 

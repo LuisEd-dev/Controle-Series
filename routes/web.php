@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\{Route, Auth};
+use Illuminate\Support\Facades\{Route, Auth, Mail};
 use App\Http\Controllers\{SeriesController, TemporadasController, EpisodiosController, EntrarController, RegistroController};
+use App\Mail\NovaSerie;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::post('/temporadas/{temporada}/episodios/assistir', [EpisodiosController::
 //Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+/* Rotas de Login */
 Route::get('/entrar', [EntrarController::class, 'index'])->name('entrar');
 Route::post('/entrar', [EntrarController::class, 'entrar'])->name('acao_entrar');
 
@@ -44,4 +46,20 @@ Route::post('/registrar', [RegistroController::class, 'store'])->name('acao_regi
 Route::get('/sair', function () {
     Auth::logout();
     return redirect()->route('entrar');
+});
+
+/* Rotas de Email */
+Route::get('/email', function () {
+    return new NovaSerie('Arrow', '5', '25');
+});
+
+Route::get('/enviar-email', function () {
+    $user = (object)['email' => 'luis@teste.com', 'name' => 'Luis Eduardo'];
+
+    $email = new NovaSerie('Arrow', '5', '25');
+    $email->subject = 'Nova Série Adicionada';
+
+
+
+    return 'Email Enviado!';
 });
