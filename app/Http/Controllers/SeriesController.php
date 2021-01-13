@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Mail\NovaSerie;
 use App\Models\User;
 use Illuminate\Support\Facades\{DB, Mail};
+use Storage;
 
 class SeriesController extends Controller
 {
@@ -26,8 +27,13 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request, CriadorDeSerie $criadorDeSerie){
 
+        $capa = null;
+        if($request->hasFile('capa')){
+            $capa = $request->file('capa')->store('capas');
+        }
+
         DB::beginTransaction();
-        $serie = $criadorDeSerie->criarSerie($request->nome, $request->qtd_temporadas, $request->ep_temporada);
+        $serie = $criadorDeSerie->criarSerie($request->nome, $request->qtd_temporadas, $request->ep_temporada, $capa);
 
         $to = [];
         foreach(User::all() as $user){
