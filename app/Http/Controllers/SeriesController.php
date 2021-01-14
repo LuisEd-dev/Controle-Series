@@ -8,8 +8,7 @@ use App\Services\{CriadorDeSerie, RemovedorDeSerie};
 use Illuminate\Http\Request;
 use App\Mail\NovaSerie;
 use App\Models\User;
-use Illuminate\Support\Facades\{DB, Mail};
-use Storage;
+use Illuminate\Support\Facades\{DB, Mail, Storage};
 
 class SeriesController extends Controller
 {

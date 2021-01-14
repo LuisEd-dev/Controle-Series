@@ -6,14 +6,15 @@ Temporadas de {{ $serie->nome }}
 
 @section('conteudo')
 
+    @if($serie->capa != null)
     <div class="row">
         <div class="col col-12 text-center mb-3">
-            <a href="/storage/{{ ($serie->capa == null) ? 'capas/sem_imagem.png' : $serie->capa }}">
-                <img src="/storage/{{ ($serie->capa == null) ? 'capas/sem_imagem.png' : $serie->capa }}" class="img-thumbnail" height="400px" width="400px">
+            <a href="/storage/{{$serie->capa }}">
+                <img src="/storage/{{ $serie->capa }}" class="img-thumbnail" height="400px" width="400px">
             </a>
         </div>
-
     </div>
+    @endif
 
     <ul class="list-group">
         @foreach ($temporadas as $temporada)

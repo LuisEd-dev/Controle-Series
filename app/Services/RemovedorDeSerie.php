@@ -1,20 +1,36 @@
 <?php
 namespace App\Services;
 
-use App\Models\{Serie, Temporada, Episodio};
+use App\Mail\SerieRemovida;
+use App\Models\{Serie, Temporada, Episodio, User};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{DB, Mail, Storage};
 
 class RemovedorDeSerie{
 
     public function removerSerie(Request $request) : string {
         $serie = Serie::find($request->id);
-        DB::transaction(function () use (&$serie) {
+        $autor = $request->user();
+        DB::transaction(function () use (&$serie, $autor) {
 
             $this->removerTemporadas($serie);
-
             $serie->delete();
 
+            if($serie->capa){
+                Storage::delete($serie->capa);
+            }
+
+            $to = [];
+            foreach(User::all() as $user){
+
+                $email = new SerieRemovida($serie->nome, $autor->name);
+                $email->subject = $autor->name . ' removeu uma série';
+
+                array_push($to, ['email' => $user->email,
+                'name' => $user->name]);
+            }
+            Mail::to($to)->send($email);
+            dd($to);
         });
         return $serie->nome;
     }
