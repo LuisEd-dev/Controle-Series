@@ -22,7 +22,6 @@ class RemovedorDeSerie{
 
             $to = [];
             foreach(User::all() as $user){
-
                 $email = new SerieRemovida($serie->nome, $autor->name);
                 $email->subject = $autor->name . ' removeu uma série';
 
@@ -30,7 +29,6 @@ class RemovedorDeSerie{
                 'name' => $user->name]);
             }
             Mail::to($to)->send($email);
-            dd($to);
         });
         return $serie->nome;
     }
